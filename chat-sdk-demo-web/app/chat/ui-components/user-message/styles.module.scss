@@ -1,0 +1,76 @@
+.toast {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  left: 1.25rem;
+  bottom: 1.25rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 33.33%;
+  z-index: 40;
+  transition: opacity 0.3s;
+
+  &.hidden {
+	display: none;
+  }
+
+  &.visible {
+	display: flex;
+  }
+
+  &.bg-statusIndicatorInfo {
+	background-color: #cce5ff;
+  }
+
+  &.bg-statusIndicatorSuccess {
+	background-color: #d4edda;
+  }
+
+  &.bg-red {
+	background-color: #f8d7da;
+  }
+}
+
+.info {
+  display: flex;
+  align-self: flex-start;
+  min-width: 24px;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.title {
+  display: flex;
+  font-weight: 400;
+  font-size: 1rem;
+  color: #111827;
+}
+.message {
+  display: flex;
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: #4b5563;
+}
+.learn {
+  display: flex;
+  font-weight: 500;
+  margin-top: 0.625rem;
+  margin-bottom: 0.625rem;
+  font-size: 1rem;
+  color: #0ea5e9;
+}
+
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}

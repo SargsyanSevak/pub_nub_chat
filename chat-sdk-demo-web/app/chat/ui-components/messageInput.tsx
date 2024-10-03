@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import UnreadIndicator from './unreadIndicator'
+import UnreadIndicator from './unreadindicator/unreadIndicator'
 import { MessageDraft, User, Channel } from '@pubnub/chat'
 import QuotedMessage from './quotedMessage'
 import MentionSuggestions from './mentionSuggestions'
