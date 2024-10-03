@@ -1,0 +1,57 @@
+.avatar {
+  position: relative;
+  display: inline-block;
+
+  .image {
+    border-radius: 50%;
+    &.with_border {
+      border: 2px solid white;
+    }
+  }
+
+  .success {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background-color: purple;
+    position: absolute;
+    left: 22px;
+    top: 20px;
+  }
+  .inactive {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background-color: gray;
+    position: absolute;
+    left: 22px;
+    top: 20px;
+  }
+  .bubble {
+    width: 22px;
+    height: 20px;
+    border-radius: 9999px;
+    text-align: center;
+    font-size: 0.75rem;
+    border: 1px solid #f0f0f0;
+    background-color: #f7fafc;
+    position: absolute;
+    left: 18px;
+    top: 16px;
+  }
+
+  .edit_icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    border: 2px solid #0ea5e9;
+    background-color: #0ea5e9;
+    cursor: pointer;
+    position: absolute;
+    right: -15px;
+    bottom: -15px;
+    margin: 0.5rem;
+  }
+}

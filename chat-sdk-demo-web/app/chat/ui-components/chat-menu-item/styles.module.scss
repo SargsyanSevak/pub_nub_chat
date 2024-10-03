@@ -1,0 +1,41 @@
+.chatMenuItem {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+.block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-left: 16px;
+}
+.avatar {
+  display: flex;
+  padding: 0 8px;
+  gap: 12px;
+  height: 48px;
+  font-size: 12px;
+  align-items: center;
+}
+.indicator {
+  display: flex;
+  align-items: center;
+}
+.markAsRead {
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  margin: 12px;
+  color: green;
+  fill: currentColor;
+  &.showToolTip {
+    color: red;
+  }
+}
+.toolTip {
+  bottom: 0;
+  &.hidden {
+    display: none;
+  }
+}
