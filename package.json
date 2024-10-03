@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "classnames": "^2.5.1",
-    "sass": "^1.79.4"
+    "classnames": "^2.5.1"
   }
 }

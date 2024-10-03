@@ -26,7 +26,6 @@ import UserMessage from "./ui-components/userMessage";
 import RoomSelector from "./ui-components/roomSelector";
 import ProfileScreen from "./ui-components/profileScreen";
 import TypingIndicator from "./ui-components/typingIndicator";
-import ChatSettingsScreen from "./ui-components/chatSettingsScreen";
 import ModalChangeName from "./ui-components/modalChangeName";
 import ModalManageMembers from "./ui-components/modalManageMembers";
 import searchImg from "@/public/icons/search.svg";
@@ -902,83 +901,6 @@ export default function Page() {
         logout={() => logout()}
         changeName={() => {
           setChangeUserNameModalVisible(true);
-        }}
-        showUserMessage={showUserMessage}
-      />
-      <ChatSettingsScreen
-        chatSettingsScreenVisible={chatSettingsScreenVisible}
-        setChatSettingsScreenVisible={setChatSettingsScreenVisible}
-        changeChatNameScreenVisible={changeChatNameModalVisible}
-        manageMembersModalVisible={manageMembersModalVisible}
-        isDirectChat={activeChannel?.type == "direct"}
-        activeChannel={activeChannel}
-        activeChannelUsers={
-          activeChannel?.type == "group" && privateGroups
-            ? privateGroupsUsers[
-                privateGroups.findIndex(
-                  (group) => group.id == activeChannel?.id
-                )
-              ]
-            : activeChannel?.type == "direct" && directChats
-            ? directChatsUsers[
-                directChats.findIndex(
-                  (dmChannel) => dmChannel.id == activeChannel?.id
-                )
-              ]
-            : publicChannels
-            ? publicChannelsUsers[
-                publicChannels.findIndex(
-                  (channel) => channel.id == activeChannel?.id
-                )
-              ]
-            : []
-        }
-        buttonAction={async () => {
-          if (activeChannel && publicChannels) {
-            sendChatEvent(
-              ChatEventTypes.LEAVE,
-              activeChannel.type == "group" && privateGroups
-                ? privateGroupsUsers[
-                    privateGroups.findIndex(
-                      (group) => group.id == activeChannel?.id
-                    )
-                  ]
-                : activeChannel.type == "direct" && directChats
-                ? directChatsUsers[
-                    directChats.findIndex(
-                      (dmChannel) => dmChannel.id == activeChannel?.id
-                    )
-                  ]
-                : [],
-              {
-                userLeaving: chat.currentUser.id,
-                isDirectChat: activeChannel.type != "group",
-                channelId: activeChannel.id,
-              }
-            );
-            await activeChannel.leave();
-            showUserMessage(
-              "You Left:",
-              "You have left this group, please select a different channel or create a new group / DM",
-              "https://www.pubnub.com/docs/chat/chat-sdk/build/features/channels/updates#update-channel-details"
-            );
-            actionCompleted({
-              action: "Leave a Private Group",
-              blockDuplicateCalls: false,
-              debug: false,
-            });
-            if (publicChannels.length > 0) {
-              setActiveChannel(publicChannels[0]);
-            }
-            setChatSettingsScreenVisible(false);
-            refreshMembersFromServer();
-          }
-        }}
-        changeChatNameAction={() => {
-          setChangeChatNameModalVisible(true);
-        }}
-        manageMembershipsAction={() => {
-          setManageMembersModalVisible(true);
         }}
         showUserMessage={showUserMessage}
       />
