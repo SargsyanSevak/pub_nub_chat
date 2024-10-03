@@ -21,7 +21,7 @@ import Message from "./ui-components/message";
 import MessageList from "./ui-components/messageList";
 import MessageListThread from "./ui-components/messageListThread";
 import MessageInput from "./ui-components/messageInput";
-import NewMessageGroup from "./ui-components/newMessageGroup";
+import NewMessageGroup from "./ui-components/new-message-group/newMessageGroup";
 import UserMessage from "./ui-components/userMessage";
 import RoomSelector from "./ui-components/roomSelector";
 import ProfileScreen from "./ui-components/profileScreen";
