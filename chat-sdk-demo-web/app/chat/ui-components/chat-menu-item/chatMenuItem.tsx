@@ -1,5 +1,5 @@
 import Avatar from "../avatar/avatar";
-import UnreadIndicator from "../unreadIndicator";
+import UnreadIndicator from "../unreadindicator/unreadIndicator";
 import { useState } from "react";
 import ToolTip from "../toolTip";
 import styles from "./styles.module.scss";
