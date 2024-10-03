@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+
+  &.bordered {
+    border-style: solid;
+    border-bottom: 1px solid #d0d7e0;
+  }
+}
+.avatar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.name {
+  display: flex;
+  padding-left: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #111827;
+}

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { roboto } from '@/app/fonts'
 import Avatar from './avatar/avatar'
-import ManagedMember from './managedMember'
+import ManagedMember from './managed-member/managedMember'
 import {
   ChatEventTypes
 } from '@/app/types'
