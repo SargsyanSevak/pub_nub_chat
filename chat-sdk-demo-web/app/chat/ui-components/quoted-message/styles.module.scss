@@ -1,0 +1,44 @@
+.block {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.5rem;
+  border-top-right-radius: 0.375rem;
+  margin-right: 6rem;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  background-color: #fafafa;
+  &.displayedWithMesageInput {
+    margin-left: 24px;
+  }
+  &.original {
+    background-color: #fafafa;
+  }
+  &.originalMessageReceived {
+    background: #e3f1fd;
+  }
+}
+.quotedMessageSender {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0.625rem;
+  justify-content: center;
+  border-left: 2px solid #0ea5e9;
+}
+.text {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+.quotedMessage {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: #1f2937;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}

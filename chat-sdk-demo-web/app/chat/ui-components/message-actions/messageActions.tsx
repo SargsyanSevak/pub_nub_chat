@@ -1,5 +1,5 @@
 import Image from "next/image";
-import ToolTip from "../toolTip";
+import ToolTip from "../tooltip/toolTip";
 import { useState } from "react";
 import styles from "./styles.module.scss";
 import classNames from "classnames";

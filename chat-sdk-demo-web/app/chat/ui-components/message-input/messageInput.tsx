@@ -1,7 +1,7 @@
 import Image from "next/image";
 import UnreadIndicator from "../unreadindicator/unreadIndicator";
 import { MessageDraft, User, Channel } from "@pubnub/chat";
-import QuotedMessage from "../quotedMessage";
+import QuotedMessage from "../quoted-message/quotedMessage";
 import MentionSuggestions from "../mention-suggestions/mentionSuggestions";
 import { useState, useEffect, useRef } from "react";
 import { ToastType } from "@/app/types";
