@@ -26,7 +26,6 @@ import UserMessage from "./ui-components/user-message/userMessage";
 import RoomSelector from "./ui-components/room-selector/roomSelector";
 import ProfileScreen from "./ui-components/profileScreen";
 import TypingIndicator from "./ui-components/typing-indicator/typingIndicator";
-import ModalManageMembers from "./ui-components/modalManageMembers";
 import searchImg from "@/public/icons/search.svg";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
@@ -902,40 +901,6 @@ export default function Page() {
           setChangeUserNameModalVisible(true);
         }}
         showUserMessage={showUserMessage}
-      />
-
-      <ModalManageMembers
-        activeChannelUsers={
-          activeChannel?.type == "group" && privateGroups
-            ? privateGroupsUsers[
-                privateGroups.findIndex(
-                  (group) => group.id == activeChannel?.id
-                )
-              ]
-            : activeChannel?.type == "direct" && directChats
-            ? directChatsUsers[
-                directChats.findIndex(
-                  (dmChannel) => dmChannel.id == activeChannel?.id
-                )
-              ]
-            : activeChannel?.type == "public" && publicChannels
-            ? publicChannelsUsers[
-                publicChannels.findIndex(
-                  (channel) => channel.id == activeChannel?.id
-                )
-              ]
-            : []
-        }
-        currentUserId={chat.currentUser.id}
-        activeChannel={activeChannel}
-        saveAction={() => {
-          setManageMembersModalVisible(false);
-        }}
-        sendChatEvent={(eventType, recipients, payload) => {
-          sendChatEvent(eventType, recipients, payload);
-        }}
-        manageMembersModalVisible={manageMembersModalVisible}
-        setManageMembersModalVisible={setManageMembersModalVisible}
       />
 
       <UserMessage
