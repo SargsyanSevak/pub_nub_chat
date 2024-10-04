@@ -1,5 +1,5 @@
 "use client";
-
+import styles from "./ui-components/styles.module.scss";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useState, useEffect, useContext, useCallback, useRef } from "react";
@@ -32,6 +32,7 @@ import {
 } from "@/app/types";
 import { getAuthKey } from "@/app/getAuthKey";
 import { actionCompleted } from "pubnub-demo-integration";
+import classNames from "classnames";
 
 export default function Page() {
   const searchParams = useSearchParams();
@@ -847,9 +848,9 @@ export default function Page() {
 
   if (!chat) {
     return (
-      <main>
-        <div className="flex flex-col w-full h-screen justify-center items-center">
-          <div className="max-w-96 max-h-96 ">
+      <div>
+        <div className={styles.no_chat}>
+          <div className={styles.logo}>
             <Image
               src="/chat-logo.svg"
               alt="Chat Icon"
@@ -859,7 +860,7 @@ export default function Page() {
               priority
             />
           </div>
-          <div className="flex mb-5 animate-spin">
+          <div className={styles.anim}>
             <Image
               src="/icons/loading.png"
               alt="Chat Icon"
@@ -869,14 +870,14 @@ export default function Page() {
               priority
             />
           </div>
-          <div className="text-2xl select-none">{loadMessage}</div>
+          <div style={{ fontSize: "12px" }}>{loadMessage}</div>
         </div>
-      </main>
+      </div>
     );
   }
 
   return (
-    <main className="overscroll-none overflow-y-hidden">
+    <section className={styles.wrapper}>
       <RoomSelector
         roomSelectorVisible={roomSelectorVisible}
         setRoomSelectorVisible={setRoomSelectorVisible}
@@ -893,9 +894,7 @@ export default function Page() {
         }}
       />
       <div
-        className={`${
-          !showEmojiPicker && "hidden"
-        } absolute left-2 bottom-2 z-50 bg-white`}
+        className={classNames(styles.picker, !showEmojiPicker && styles.hidden)}
       >
         <Picker
           data={data}
@@ -914,14 +913,15 @@ export default function Page() {
       </div>
       <div
         id="chat-main"
-        className={`flex flex-row min-h-screen h-screen overscroll-none  ${
+        className={classNames(
+          styles.selection_menu,
           (roomSelectorVisible ||
             profileScreenVisible ||
             chatSettingsScreenVisible ||
             changeChatNameModalVisible ||
             manageMembersModalVisible) &&
-          "blur-sm opacity-40"
-        }`}
+            styles.opacity_40
+        )}
       >
         <ChatSelectionMenu
           chatSelectionMenuMinimized={chatSelectionMenuMinimized}
@@ -947,11 +947,8 @@ export default function Page() {
           currentUserProfileUrl={profileUrl}
           showUserMessage={showUserMessage}
         />
-        <div className="relative w-full bg-white">
-          <div
-            id="chats-main"
-            className="flex flex-col grow w-full max-h-screen py-0 mt-[64px] bg-white"
-          >
+        <div className={styles.chats_main}>
+          <div id="chats-main" className={styles.new_msg_group}>
             {creatingNewMessage ? (
               <NewMessageGroup
                 chat={chat}
@@ -1063,9 +1060,10 @@ export default function Page() {
                 />
               )}
             <div
-              className={`${
-                creatingNewMessage && "hidden"
-              } absolute bottom-0 left-0 right-0 bg-white`}
+              className={classNames(
+                styles.msg_input,
+                creatingNewMessage && styles.hidden
+              )}
             >
               <MessageInput
                 activeChannel={activeChannel}
@@ -1119,6 +1117,6 @@ export default function Page() {
           }
         />
       </div>
-    </main>
+    </section>
   );
 }
