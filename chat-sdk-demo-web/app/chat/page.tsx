@@ -26,7 +26,6 @@ import UserMessage from "./ui-components/user-message/userMessage";
 import RoomSelector from "./ui-components/room-selector/roomSelector";
 import ProfileScreen from "./ui-components/profileScreen";
 import TypingIndicator from "./ui-components/typing-indicator/typingIndicator";
-import ModalChangeName from "./ui-components/modalChangeName";
 import ModalManageMembers from "./ui-components/modalManageMembers";
 import searchImg from "@/public/icons/search.svg";
 import data from "@emoji-mart/data";
@@ -904,31 +903,7 @@ export default function Page() {
         }}
         showUserMessage={showUserMessage}
       />
-      {/* Modal to change the Chat group name*/}
-      <ModalChangeName
-        name={name}
-        activeChannel={activeChannel}
-        modalType={ChatNameModals.CHANNEL}
-        showUserMessage={showUserMessage}
-        saveAction={async (newName) => {
-          await activeChannel?.update({
-            name: newName,
-          });
-          showUserMessage(
-            "Channel Name Changed",
-            "The channel name has been successfully updated",
-            "https://www.pubnub.com/docs/chat/chat-sdk/build/features/channels/updates#update-channel-details",
-            ToastType.CHECK
-          );
-          actionCompleted({
-            action: "Change the Private Group name",
-            blockDuplicateCalls: false,
-            debug: false,
-          });
-        }}
-        changeNameModalVisible={changeChatNameModalVisible}
-        setChangeNameModalVisible={setChangeChatNameModalVisible}
-      />
+
       <ModalManageMembers
         activeChannelUsers={
           activeChannel?.type == "group" && privateGroups
@@ -961,28 +936,6 @@ export default function Page() {
         }}
         manageMembersModalVisible={manageMembersModalVisible}
         setManageMembersModalVisible={setManageMembersModalVisible}
-      />
-      {/* Modal to change the user name */}
-      <ModalChangeName
-        name={name}
-        activeChannel={null}
-        modalType={ChatNameModals.USER}
-        saveAction={async (newName) => {
-          const newUser = await chat.currentUser.update({
-            name: newName,
-          });
-          setCurrentUser(newUser);
-          setName(newName);
-          showUserMessage(
-            "Name Changed",
-            "Your name has been successfully updated",
-            "https://www.pubnub.com/docs/chat/chat-sdk/build/features/users/updates#update-user-details",
-            ToastType.CHECK
-          );
-        }}
-        showUserMessage={showUserMessage}
-        changeNameModalVisible={changeUserNameModalVisible}
-        setChangeNameModalVisible={setChangeUserNameModalVisible}
       />
 
       <UserMessage
