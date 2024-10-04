@@ -1,7 +1,7 @@
 import Message from './messages/message'
 import { roboto } from '@/app/fonts'
 import Image from 'next/image'
-import MessageInput from './messageInput'
+import MessageInput from './message-input/messageInput'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import {
   Channel,

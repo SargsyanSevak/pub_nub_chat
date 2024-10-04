@@ -20,7 +20,7 @@ import UnreadIndicator from "./ui-components/unreadindicator/unreadIndicator";
 import Message from "./ui-components/messages/message";
 import MessageList from "./ui-components/messageList";
 import MessageListThread from "./ui-components/messageListThread";
-import MessageInput from "./ui-components/messageInput";
+import MessageInput from "./ui-components/message-input/messageInput";
 import NewMessageGroup from "./ui-components/new-message-group/newMessageGroup";
 import UserMessage from "./ui-components/user-message/userMessage";
 import RoomSelector from "./ui-components/room-selector/roomSelector";
