@@ -2,7 +2,7 @@ import Avatar from "../avatar/avatar";
 import Image from "next/image";
 import { useState, useCallback } from "react";
 import MessageActions from "../message-actions/messageActions";
-import PinnedMessagePill from "../pinnedMessagePill";
+import PinnedMessagePill from "../pinned-message-pill/pinnedMessagePill";
 import QuotedMessage from "../quotedMessage";
 import MessageReaction from "../message-reaction/messageReaction";
 import { MessageActionsTypes, ToastType } from "@/app/types";
