@@ -18,7 +18,7 @@ import ChatSelectionMenu from "./ui-components/chat-selection-menu/chatSelection
 import Avatar from "./ui-components/avatar/avatar";
 import UnreadIndicator from "./ui-components/unreadindicator/unreadIndicator";
 import Message from "./ui-components/messages/message";
-import MessageList from "./ui-components/messageList";
+import MessageList from "./ui-components/message-list/messageList";
 import MessageListThread from "./ui-components/messageListThread";
 import MessageInput from "./ui-components/message-input/messageInput";
 import NewMessageGroup from "./ui-components/new-message-group/newMessageGroup";
