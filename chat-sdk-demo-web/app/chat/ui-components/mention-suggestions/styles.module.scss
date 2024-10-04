@@ -1,0 +1,46 @@
+.wrapper {
+  display: flex;
+  width: 100%;
+  padding-left: 1.75rem;
+  padding-right: 1.75rem;
+  flex-direction: row;
+  background-color: #ffffff;
+}
+.name {
+  display: flex;
+  font-size: 0.875rem; // Equivalent to text-sm
+  margin: 0.25rem; // Equivalent to m-1
+  border-radius: 0.5rem; // Equivalent to rounded-lg
+  border: 1px solid #d1d5db; // Equivalent to border-neutral-300
+  padding-left: 0.5rem; // Equivalent to px-2
+  padding-right: 0.5rem;
+  padding-top: 0.25rem; // Equivalent to py-1
+  padding-bottom: 0.25rem;
+  background-color: #f9fafb; // Equivalent to bg-neutral-50
+  color: #111827; // Equivalent to text-neutral-900
+  white-space: nowrap; // Equivalent to text-nowrap
+  cursor: pointer;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1; // Ensures only one line is shown
+}
+.channel_name {
+  display: flex;
+  font-size: 0.875rem; // Equivalent to text-sm
+  margin: 0.25rem; // Equivalent to m-1
+  border-radius: 0.5rem; // Equivalent to rounded-lg
+  border: 1px solid #d1d5db; // Equivalent to border-neutral-300
+  padding-left: 0.5rem; // Equivalent to px-2
+  padding-right: 0.5rem;
+  padding-top: 0.25rem; // Equivalent to py-1
+  padding-bottom: 0.25rem;
+  background-color: #f9fafb; // Equivalent to bg-neutral-50
+  color: #111827; // Equivalent to text-neutral-900
+  white-space: nowrap; // Equivalent to text-nowrap
+  cursor: pointer;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1; // Ensures only one line is shown
+}

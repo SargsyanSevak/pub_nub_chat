@@ -1,4 +1,4 @@
-import Message from './message'
+import Message from './messages/message'
 import { roboto } from '@/app/fonts'
 import Image from 'next/image'
 import MessageInput from './messageInput'

@@ -1,0 +1,59 @@
+.mention {
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  background-color: #f9fafb;
+  color: #111827;
+  margin: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.channel_reference {
+  border-radius: 0.5rem;
+  border: 1px solid #d1d5db;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+  background-color: #f9fafb;
+  color: #111827;
+  margin: 0.25rem;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.block {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  width: 83.3333%;
+  &.self_end {
+    align-self: flex-end;
+  }
+  &.inThread {
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+  }
+}

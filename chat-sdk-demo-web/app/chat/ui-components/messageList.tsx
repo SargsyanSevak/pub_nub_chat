@@ -1,6 +1,6 @@
 import { roboto } from '@/app/fonts'
 import Avatar from './avatar/avatar'
-import Message from './message'
+import Message from './messages/message'
 import UnreadIndicator from './unreadindicator/unreadIndicator'
 import Image from 'next/image'
 import { PresenceIcon } from '@/app/types'

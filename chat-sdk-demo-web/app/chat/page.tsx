@@ -17,7 +17,7 @@ import { roboto } from "@/app/fonts";
 import ChatSelectionMenu from "./ui-components/chat-selection-menu/chatSelectionMenu";
 import Avatar from "./ui-components/avatar/avatar";
 import UnreadIndicator from "./ui-components/unreadindicator/unreadIndicator";
-import Message from "./ui-components/message";
+import Message from "./ui-components/messages/message";
 import MessageList from "./ui-components/messageList";
 import MessageListThread from "./ui-components/messageListThread";
 import MessageInput from "./ui-components/messageInput";

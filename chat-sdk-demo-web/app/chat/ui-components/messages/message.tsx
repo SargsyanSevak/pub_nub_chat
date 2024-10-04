@@ -1,23 +1,25 @@
-import Avatar from './avatar/avatar'
-import Image from 'next/image'
-import { roboto } from '@/app/fonts'
-import { useState, useEffect, useCallback } from 'react'
-import MessageActions from './messageActions'
-import PinnedMessagePill from './pinnedMessagePill'
-import QuotedMessage from './quotedMessage'
-import MessageReaction from './messageReaction'
-import { MessageActionsTypes, PresenceIcon, ToastType } from '@/app/types'
-import ToolTip from './toolTip'
-import { Channel, TimetokenUtils, MixedTextTypedElement } from '@pubnub/chat'
+import Avatar from "../avatar/avatar";
+import Image from "next/image";
+import { roboto } from "@/app/fonts";
+import { useState, useCallback } from "react";
+import MessageActions from "../messageActions";
+import PinnedMessagePill from "../pinnedMessagePill";
+import QuotedMessage from "../quotedMessage";
+import MessageReaction from "../messageReaction";
+import { MessageActionsTypes, ToastType } from "@/app/types";
+import ToolTip from "../toolTip";
+import { TimetokenUtils, MixedTextTypedElement } from "@pubnub/chat";
+import styles from "./styles.module.scss";
+import classNames from "classnames";
 
-export default function Message ({
+export default function Message({
   received,
   inThread = false,
   inPinned = false,
   avatarUrl,
   readReceipts,
   showReadIndicator = true,
-  quotedMessageSender = '',
+  quotedMessageSender = "",
   sender,
   messageActionHandler = (a, b) => {},
   pinned = false,
@@ -25,144 +27,144 @@ export default function Message ({
   message,
   currentUserId,
   isOnline = -1,
-  showUserMessage = (a, b, c, d) => {}
+  showUserMessage = (a, b, c, d) => {},
 }) {
-  const [showToolTip, setShowToolTip] = useState(false)
-  const [actionsShown, setActionsShown] = useState(false)
-  let messageHovered = false
-  let actionsHovered = false
+  const [showToolTip, setShowToolTip] = useState(false);
+  const [actionsShown, setActionsShown] = useState(false);
+  let messageHovered = false;
+  let actionsHovered = false;
 
-  const handleMessageMouseEnter = e => {
-    messageHovered = true
-    setActionsShown(true)
-  }
-  const handleMessageMouseLeave = e => {
-    messageHovered = false
-    setActionsShown(false)
-  }
+  const handleMessageMouseEnter = (e) => {
+    messageHovered = true;
+    setActionsShown(true);
+  };
+  const handleMessageMouseLeave = (e) => {
+    messageHovered = false;
+    setActionsShown(false);
+  };
 
-  function testIfActionsHovered () {
-    if (messageHovered) return
+  function testIfActionsHovered() {
+    if (messageHovered) return;
     if (!actionsHovered) {
-      setActionsShown(false)
+      setActionsShown(false);
     }
   }
 
-  function handleMessageActionsEnter () {
-    actionsHovered = true
-    setActionsShown(true)
+  function handleMessageActionsEnter() {
+    actionsHovered = true;
+    setActionsShown(true);
   }
 
-  function handleMessageActionsLeave () {
-    actionsHovered = false
+  function handleMessageActionsLeave() {
+    actionsHovered = false;
     if (!messageHovered) {
-      setActionsShown(false)
+      setActionsShown(false);
     }
   }
 
-  function copyMessageText (messageText) {
-    navigator.clipboard.writeText(messageText)
+  function copyMessageText(messageText) {
+    navigator.clipboard.writeText(messageText);
   }
 
-  function openLink (url) {
-    window.open(url, '_blank')
+  function openLink(url) {
+    window.open(url, "_blank");
   }
 
-  function userClick (userId, userName) {
+  function userClick(userId, userName) {
     showUserMessage(
-      '@Mentioned User Clicked:',
+      "@Mentioned User Clicked:",
       `You have Clicked on user with ID ${userId} and name ${userName}`,
-      'https://www.pubnub.com/docs/chat/chat-sdk/build/features/users/mentions',
+      "https://www.pubnub.com/docs/chat/chat-sdk/build/features/users/mentions",
       ToastType.INFO
-    )
+    );
   }
 
-  function channelClick (channelId, channelName) {
+  function channelClick(channelId, channelName) {
     showUserMessage(
-      '#Referenced Channel Clicked:',
+      "#Referenced Channel Clicked:",
       `You have Clicked on channel with ID ${channelId} and name ${channelName}`,
-      'https://www.pubnub.com/docs/chat/chat-sdk/build/features/channels/references',
+      "https://www.pubnub.com/docs/chat/chat-sdk/build/features/channels/references",
       ToastType.INFO
-    )
+    );
   }
 
-  async function reactionClicked (emoji, timetoken) {
-    await message?.toggleReaction(emoji)
+  async function reactionClicked(emoji, timetoken) {
+    await message?.toggleReaction(emoji);
   }
 
-  const determineUserReadableDate = useCallback(timetoken => {
+  const determineUserReadableDate = useCallback((timetoken) => {
     const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec'
-    ]
-    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    const date = TimetokenUtils.timetokenToDate(timetoken)
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const date = TimetokenUtils.timetokenToDate(timetoken);
     const datetime = `${days[date.getDay()]} ${date.getDate()} ${
       months[date.getMonth()]
-    } ${(date.getHours() + '').padStart(2, '0')}:${(
-      date.getMinutes() + ''
-    ).padStart(2, '0')}`
+    } ${(date.getHours() + "").padStart(2, "0")}:${(
+      date.getMinutes() + ""
+    ).padStart(2, "0")}`;
 
-    return datetime
-  }, [])
+    return datetime;
+  }, []);
 
   //  Originally I was not writing the 'lastTimetoken' for messages I was sending myself, however
   //  that caused the Chat SDK's notion of an unread message count inconsistent, so I am removing
   //  readReceipts I set myself in this useCallback
   const determineReadStatus = useCallback((timetoken, readReceipts) => {
-    if (!readReceipts) return false
-    let returnVal = false
+    if (!readReceipts) return false;
+    let returnVal = false;
     for (var i = 0; i < Object.keys(readReceipts).length; i++) {
-      const receipt = Object.keys(readReceipts)[i]
-      const findMe = readReceipts[receipt].indexOf(currentUserId)
+      const receipt = Object.keys(readReceipts)[i];
+      const findMe = readReceipts[receipt].indexOf(currentUserId);
       if (findMe > -1) {
-        readReceipts[receipt].splice(findMe, 1)
+        readReceipts[receipt].splice(findMe, 1);
       }
       if (readReceipts[receipt].length > 0 && receipt >= timetoken) {
-        return true
+        return true;
       }
     }
-    return false
-  }, [])
+    return false;
+  }, []);
 
   const renderMessagePart = useCallback(
     (messagePart: MixedTextTypedElement, index: number) => {
-      if (messagePart?.type === 'text') {
-        return <span key={index}>{messagePart.content.text}</span>
+      if (messagePart?.type === "text") {
+        return <span key={index}>{messagePart.content.text}</span>;
       }
-      if (messagePart?.type === 'plainLink') {
+      if (messagePart?.type === "plainLink") {
         return (
           <span
             key={index}
-            className='cursor-pointer underline'
+            style={{ cursor: "pointer", textDecoration: "underline" }}
             onClick={() => openLink(`${messagePart.content.link}`)}
           >
             {messagePart.content.link}
           </span>
-        )
+        );
       }
-      if (messagePart?.type === 'textLink') {
+      if (messagePart?.type === "textLink") {
         return (
           <span
             key={index}
-            className='cursor-pointer underline'
+            style={{ cursor: "pointer", textDecoration: "underline" }}
             onClick={() => openLink(`${messagePart.content.link}`)}
           >
             {messagePart.content.link}
           </span>
-        )
+        );
       }
-      if (messagePart?.type === 'mention') {
+      if (messagePart?.type === "mention") {
         return (
           <span
             key={index}
@@ -172,14 +174,14 @@ export default function Message ({
                 `${messagePart.content.name}`
               )
             }
-            className='rounded-lg border px-2 py-0.5 line-clamp-1 text-nowrap select-none cursor-pointer border-neutral-300 bg-neutral-50 text-neutral-900 m-1'
+            className={styles.mention}
           >
             @{messagePart.content.name}
           </span>
-        )
+        );
       }
 
-      if (messagePart?.type === 'channelReference') {
+      if (messagePart?.type === "channelReference") {
         return (
           <span
             key={index}
@@ -189,45 +191,47 @@ export default function Message ({
                 `${messagePart.content.name}`
               )
             }
-            className='rounded-lg border px-2 py-0.5 line-clamp-1 text-nowrap select-none cursor-pointer border-neutral-300 bg-neutral-50 text-neutral-900 m-1'
+            className={styles.channel_reference}
           >
             #{messagePart.content.name}
           </span>
-        )
+        );
       }
-      return 'error'
+      return "error";
     },
     []
-  )
+  );
 
   return (
-    <div className='flex flex-col w-full'>
+    <div className={styles.wrapper}>
       <div
-        className={`flex flex-row ${inThread ? '' : 'w-5/6'} my-4 ${
-          inThread ? 'mx-6' : 'mx-8'
-        } ${!received && !inThread && 'self-end'}`}
+        className={classNames(
+          styles.block,
+          inThread && styles.inThread,
+          !received && !inThread && styles.self_end
+        )}
       >
         {received && !inThread && !inPinned && (
-          <div className='min-w-11'>
+          <div className="min-w-11">
             {!inThread && (
               <Avatar
                 present={isOnline}
-                avatarUrl={avatarUrl ? avatarUrl : '/avatars/placeholder.png'}
+                avatarUrl={avatarUrl ? avatarUrl : "/avatars/placeholder.png"}
               />
             )}
           </div>
         )}
 
-        <div className='flex flex-col w-full gap-2'>
+        <div className="flex flex-col w-full gap-2">
           <div
             className={`flex flex-row ${
               inThread || inPinned || received
-                ? 'justify-between'
-                : 'justify-end'
+                ? "justify-between"
+                : "justify-end"
             }`}
           >
             {pinned && !received && (
-              <div className='flex justify-start grow select-none'>
+              <div className="flex justify-start grow select-none">
                 <PinnedMessagePill />
               </div>
             )}
@@ -236,7 +240,7 @@ export default function Message ({
                 className={`${roboto.className} text-sm font-normal flex text-neutral-600`}
               >
                 {sender}
-                {(inThread || inPinned) && !received && ' (you)'}
+                {(inThread || inPinned) && !received && " (you)"}
                 {pinned && <PinnedMessagePill />}
               </div>
             )}
@@ -251,39 +255,39 @@ export default function Message ({
             className={`${
               roboto.className
             } relative text-base font-normal flex text-black ${
-              received ? 'bg-neutral-50' : 'bg-[#e3f1fd]'
+              received ? "bg-neutral-50" : "bg-[#e3f1fd]"
             } p-4 rounded-b-lg ${
-              received ? 'rounded-tr-lg' : 'rounded-tl-lg'
-            } pb-[${!received ? '40px' : '0px'}]`}
+              received ? "rounded-tr-lg" : "rounded-tl-lg"
+            } pb-[${!received ? "40px" : "0px"}]`}
             onMouseEnter={handleMessageMouseEnter}
             onMouseMove={handleMessageMouseEnter}
             onMouseLeave={handleMessageMouseLeave}
           >
             {inPinned && (
               <div
-                className='cursor-pointer'
+                className="cursor-pointer"
                 onClick={() => unpinMessageHandler()}
                 onMouseEnter={() => {
-                  setShowToolTip(true)
+                  setShowToolTip(true);
                 }}
                 onMouseLeave={() => {
-                  setShowToolTip(false)
+                  setShowToolTip(false);
                 }}
               >
-                <div className='absolute right-[10px] top-[10px]'>
-                  <div className='relative'>
+                <div className="absolute right-[10px] top-[10px]">
+                  <div className="relative">
                     <ToolTip
                       className={`${
-                        showToolTip ? 'block' : 'hidden'
+                        showToolTip ? "block" : "hidden"
                       } bottom-[0px]`}
-                      tip='Unpin'
+                      tip="Unpin"
                       messageActionsTip={false}
                     />
                   </div>
                   <Image
-                    src='/icons/close.svg'
-                    alt='Close'
-                    className=''
+                    src="/icons/close.svg"
+                    alt="Close"
+                    className=""
                     width={20}
                     height={20}
                     priority
@@ -291,7 +295,7 @@ export default function Message ({
                 </div>
               </div>
             )}
-            <div className='flex flex-col w-full'>
+            <div className="flex flex-col w-full">
               {message.quotedMessage && (
                 <QuotedMessage
                   originalMessage={message}
@@ -303,7 +307,7 @@ export default function Message ({
                 />
               )}
               {/* Will chase with the chat team to see why I need these conditions (get an error about missing 'type' if they are absent) */}
-              <div className='flex flex-row items-center w-full flex-wrap'>
+              <div className="flex flex-row items-center w-full flex-wrap">
                 {(message.content.text ||
                   message.content.plainLink ||
                   message.content.textLink ||
@@ -313,13 +317,13 @@ export default function Message ({
                     .getMessageElements()
                     .map((msgPart, index) => renderMessagePart(msgPart, index))}
                 {message.actions && message.actions.edited && (
-                  <span className='text-navy500'>&nbsp;&nbsp;(edited)</span>
+                  <span className="text-navy500">&nbsp;&nbsp;(edited)</span>
                 )}
                 {message.files && message.files.length > 0 && (
                   <Image
                     src={`${message.files[0].url}`}
-                    alt='PubNub Logo'
-                    className='absolute right-2 top-2'
+                    alt="PubNub Logo"
+                    className="absolute right-2 top-2"
                     width={25}
                     height={25}
                   />
@@ -330,17 +334,17 @@ export default function Message ({
               <Image
                 src={`${
                   determineReadStatus(message.timetoken, readReceipts)
-                    ? '/icons/read.svg'
-                    : '/icons/sent.svg'
+                    ? "/icons/read.svg"
+                    : "/icons/sent.svg"
                 }`}
-                alt='Read'
-                className='absolute right-[10px] bottom-[14px]'
+                alt="Read"
+                className="absolute right-[10px] bottom-[14px]"
                 width={21}
                 height={10}
                 priority
               />
             )}
-            <div className='absolute right-[10px] -bottom-[20px] flex flex-row items-center z-10 select-none'>
+            <div className="absolute right-[10px] -bottom-[20px] flex flex-row items-center z-10 select-none">
               {/*arrayOfEmojiReactions*/}
               {message.reactions
                 ? Object?.keys(message.reactions)
@@ -354,29 +358,29 @@ export default function Message ({
                         key={index}
                       />
                     ))
-                : ''}
+                : ""}
             </div>
             {!inThread && message.hasThread && (
               <div
-                className='absolute right-[10px] -bottom-[28px] flex flex-row items-center z-0 cursor-pointer select-none'
+                className="absolute right-[10px] -bottom-[28px] flex flex-row items-center z-0 cursor-pointer select-none"
                 onClick={() => {
                   messageActionHandler(
                     MessageActionsTypes.REPLY_IN_THREAD,
                     message
-                  )
+                  );
                 }}
               >
                 {/*Whether or not there is a threaded reply*/}
-                <div className='flex flex-row cursor-pointer'>
+                <div className="flex flex-row cursor-pointer">
                   <Image
-                    src='/icons/reveal-thread.svg'
-                    alt='Expand'
-                    className=''
+                    src="/icons/reveal-thread.svg"
+                    alt="Expand"
+                    className=""
                     width={20}
                     height={20}
                     priority
                   />
-                  <div className='text-sm font-normal text-navy700'>
+                  <div className="text-sm font-normal text-navy700">
                     Replies
                   </div>
                 </div>
@@ -401,16 +405,16 @@ export default function Message ({
                   messageActionHandler(MessageActionsTypes.QUOTE, message)
                 }
                 pinMessageClick={() => {
-                  messageActionHandler(MessageActionsTypes.PIN, message)
+                  messageActionHandler(MessageActionsTypes.PIN, message);
                 }}
-                showEmojiPickerClick={data => {
-                  messageActionHandler(MessageActionsTypes.SHOW_EMOJI, data)
+                showEmojiPickerClick={(data) => {
+                  messageActionHandler(MessageActionsTypes.SHOW_EMOJI, data);
                 }}
                 copyMessageClick={() => {
-                  copyMessageText(message.content.text)
+                  copyMessageText(message.content.text);
                   messageActionHandler(MessageActionsTypes.COPY, {
-                    text: message.content.text
-                  })
+                    text: message.content.text,
+                  });
                 }}
               />
             )}
@@ -434,24 +438,24 @@ export default function Message ({
                 messageActionHandler(MessageActionsTypes.QUOTE, message)
               }
               pinMessageClick={() => {
-                messageActionHandler(MessageActionsTypes.PIN, message)
+                messageActionHandler(MessageActionsTypes.PIN, message);
               }}
-              showEmojiPickerClick={data => {
-                messageActionHandler(MessageActionsTypes.SHOW_EMOJI, data)
+              showEmojiPickerClick={(data) => {
+                messageActionHandler(MessageActionsTypes.SHOW_EMOJI, data);
               }}
               copyMessageClick={() => {
-                copyMessageText(message.content.text)
+                copyMessageText(message.content.text);
                 messageActionHandler(MessageActionsTypes.COPY, {
-                  text: message.content.text
-                })
+                  text: message.content.text,
+                });
               }}
             />
           )}
         </div>
       </div>
       {inPinned && (
-        <div className='flex flex-row place-self-center mt-2 border border-navy200 w-5/6'></div>
+        <div className="flex flex-row place-self-center mt-2 border border-navy200 w-5/6"></div>
       )}
     </div>
-  )
+  );
 }
