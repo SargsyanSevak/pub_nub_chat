@@ -212,7 +212,7 @@ export default function Message({
         )}
       >
         {received && !inThread && !inPinned && (
-          <div className="min-w-11">
+          <div style={{ minWidth: "44px" }}>
             {!inThread && (
               <Avatar
                 present={isOnline}
@@ -222,50 +222,43 @@ export default function Message({
           </div>
         )}
 
-        <div className="flex flex-col w-full gap-2">
+        <div className={styles.content}>
           <div
-            className={`flex flex-row ${
-              inThread || inPinned || received
-                ? "justify-between"
-                : "justify-end"
-            }`}
+            className={classNames(
+              styles.pinned_msg_pill,
+              inThread || inPinned || (received && styles.justify_between)
+            )}
           >
             {pinned && !received && (
-              <div className="flex justify-start grow select-none">
+              <div className={styles.msg_pill}>
                 <PinnedMessagePill />
               </div>
             )}
             {(inThread || inPinned || received) && (
-              <div
-                className={`${roboto.className} text-sm font-normal flex text-neutral-600`}
-              >
+              <div className={styles.sender}>
                 {sender}
                 {(inThread || inPinned) && !received && " (you)"}
                 {pinned && <PinnedMessagePill />}
               </div>
             )}
-            <div
-              className={`${roboto.className} text-sm font-normal flex text-neutral-600`}
-            >
+            <div className={styles.sender}>
               {determineUserReadableDate(message.timetoken)}
             </div>
           </div>
 
           <div
-            className={`${
-              roboto.className
-            } relative text-base font-normal flex text-black ${
-              received ? "bg-neutral-50" : "bg-[#e3f1fd]"
-            } p-4 rounded-b-lg ${
-              received ? "rounded-tr-lg" : "rounded-tl-lg"
-            } pb-[${!received ? "40px" : "0px"}]`}
+            className={classNames(
+              styles.pin,
+              received && styles.received,
+              !received && styles.sent
+            )}
             onMouseEnter={handleMessageMouseEnter}
             onMouseMove={handleMessageMouseEnter}
             onMouseLeave={handleMessageMouseLeave}
           >
             {inPinned && (
               <div
-                className="cursor-pointer"
+                style={{ cursor: "pointer" }}
                 onClick={() => unpinMessageHandler()}
                 onMouseEnter={() => {
                   setShowToolTip(true);
@@ -274,12 +267,12 @@ export default function Message({
                   setShowToolTip(false);
                 }}
               >
-                <div className="absolute right-[10px] top-[10px]">
-                  <div className="relative">
+                <div className={styles.close_tooltip}>
+                  <div style={{ position: "relative" }}>
                     <ToolTip
-                      className={`${
-                        showToolTip ? "block" : "hidden"
-                      } bottom-[0px]`}
+                      className={classNames(
+                        showToolTip ? styles.visible : styles.hidden
+                      )}
                       tip="Unpin"
                       messageActionsTip={false}
                     />
@@ -295,7 +288,7 @@ export default function Message({
                 </div>
               </div>
             )}
-            <div className="flex flex-col w-full">
+            <div className={styles.quoted}>
               {message.quotedMessage && (
                 <QuotedMessage
                   originalMessage={message}
@@ -307,7 +300,7 @@ export default function Message({
                 />
               )}
               {/* Will chase with the chat team to see why I need these conditions (get an error about missing 'type' if they are absent) */}
-              <div className="flex flex-row items-center w-full flex-wrap">
+              <div className={styles.text_types}>
                 {(message.content.text ||
                   message.content.plainLink ||
                   message.content.textLink ||
@@ -317,13 +310,13 @@ export default function Message({
                     .getMessageElements()
                     .map((msgPart, index) => renderMessagePart(msgPart, index))}
                 {message.actions && message.actions.edited && (
-                  <span className="text-navy500">&nbsp;&nbsp;(edited)</span>
+                  <span style={{ color: "#4b5563" }}>&nbsp;&nbsp;(edited)</span>
                 )}
                 {message.files && message.files.length > 0 && (
                   <Image
                     src={`${message.files[0].url}`}
                     alt="PubNub Logo"
-                    className="absolute right-2 top-2"
+                    style={{ position: "absolute", right: "8px", top: "8px" }}
                     width={25}
                     height={25}
                   />
@@ -338,13 +331,13 @@ export default function Message({
                     : "/icons/sent.svg"
                 }`}
                 alt="Read"
-                className="absolute right-[10px] bottom-[14px]"
+                style={{ position: "absolute", right: "10px", bottom: "14px" }}
                 width={21}
                 height={10}
                 priority
               />
             )}
-            <div className="absolute right-[10px] -bottom-[20px] flex flex-row items-center z-10 select-none">
+            <div className={styles.reactions}>
               {/*arrayOfEmojiReactions*/}
               {message.reactions
                 ? Object?.keys(message.reactions)
@@ -362,7 +355,7 @@ export default function Message({
             </div>
             {!inThread && message.hasThread && (
               <div
-                className="absolute right-[10px] -bottom-[28px] flex flex-row items-center z-0 cursor-pointer select-none"
+                className={styles.msg_actions}
                 onClick={() => {
                   messageActionHandler(
                     MessageActionsTypes.REPLY_IN_THREAD,
@@ -371,7 +364,7 @@ export default function Message({
                 }}
               >
                 {/*Whether or not there is a threaded reply*/}
-                <div className="flex flex-row cursor-pointer">
+                <div className={styles.replies}>
                   <Image
                     src="/icons/reveal-thread.svg"
                     alt="Expand"
@@ -380,7 +373,7 @@ export default function Message({
                     height={20}
                     priority
                   />
-                  <div className="text-sm font-normal text-navy700">
+                  <div className={styles.replies_txt}>
                     Replies
                   </div>
                 </div>
@@ -454,7 +447,7 @@ export default function Message({
         </div>
       </div>
       {inPinned && (
-        <div className="flex flex-row place-self-center mt-2 border border-navy200 w-5/6"></div>
+        <div ></div>
       )}
     </div>
   );
