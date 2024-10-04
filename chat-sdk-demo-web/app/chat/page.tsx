@@ -13,31 +13,22 @@ import {
   Message as pnMessage,
 } from "@pubnub/chat";
 import Image from "next/image";
-import { roboto } from "@/app/fonts";
 import ChatSelectionMenu from "./ui-components/chat-selection-menu/chatSelectionMenu";
-import Avatar from "./ui-components/avatar/avatar";
-import UnreadIndicator from "./ui-components/unreadindicator/unreadIndicator";
-import Message from "./ui-components/messages/message";
 import MessageList from "./ui-components/message-list/messageList";
 import MessageListThread from "./ui-components/message-list-thread/messageListThread";
 import MessageInput from "./ui-components/message-input/messageInput";
 import NewMessageGroup from "./ui-components/new-message-group/newMessageGroup";
 import UserMessage from "./ui-components/user-message/userMessage";
 import RoomSelector from "./ui-components/room-selector/roomSelector";
-import ProfileScreen from "./ui-components/profileScreen";
 import TypingIndicator from "./ui-components/typing-indicator/typingIndicator";
-import searchImg from "@/public/icons/search.svg";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { testData } from "./data/user-data";
 import {
-  ChatNameModals,
   MessageActionsTypes,
-  ChatHeaderActionIcon,
   ToastType,
   ChatEventTypes,
   UnreadMessagesOnChannel,
-  PresenceIcon,
 } from "@/app/types";
 import { getAuthKey } from "@/app/getAuthKey";
 import { actionCompleted } from "pubnub-demo-integration";
@@ -889,18 +880,6 @@ export default function Page() {
       <RoomSelector
         roomSelectorVisible={roomSelectorVisible}
         setRoomSelectorVisible={setRoomSelectorVisible}
-      />
-      <ProfileScreen
-        profileScreenVisible={profileScreenVisible}
-        setProfileScreenVisible={setProfileScreenVisible}
-        changeUserNameScreenVisible={changeUserNameModalVisible}
-        name={name}
-        profileUrl={profileUrl}
-        logout={() => logout()}
-        changeName={() => {
-          setChangeUserNameModalVisible(true);
-        }}
-        showUserMessage={showUserMessage}
       />
 
       <UserMessage
